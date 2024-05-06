@@ -1,0 +1,165 @@
+Neural Network Tools for STM32AI v1.6.0 (STM.ai v7.3.0-RC5)
+Created date          : 2023-11-20 16:55:24
+Parameters            : generate --name network -m C:/Users/Dung Ngan Ha/Desktop/NCKH/3classes/Spch_cmd24.tflite --type tflite --compression lossless -O ram --verbosity 1 --workspace C:\Users\DUNGNG~1\AppData\Local\Temp\mxAI_workspace753055412778009682089023560474642 --output C:\Users\Dung Ngan Ha\.stm32cubemx\network_output --allocate-inputs --allocate-outputs
+
+Exec/report summary (generate)
+------------------------------------------------------------------------------------------------------------
+model file         :   C:\Users\Dung Ngan Ha\Desktop\NCKH\3classes\Spch_cmd24.tflite                       
+type               :   tflite                                                                              
+c_name             :   network                                                                             
+compression        :   lossless                                                                            
+options            :   allocate-inputs, allocate-outputs                                                   
+optimization       :   ram                                                                                 
+target/series      :   generic                                                                             
+workspace dir      :   C:\Users\DUNGNG~1\AppData\Local\Temp\mxAI_workspace753055412778009682089023560474642
+output dir         :   C:\Users\Dung Ngan Ha\.stm32cubemx\network_output                                   
+model_fmt          :   float                                                                               
+model_name         :   Spch_cmd24                                                                          
+model_hash         :   8c176a9c3d868d590c1a5c64c0099f43                                                    
+params #           :   215 items (860 B)                                                                   
+------------------------------------------------------------------------------------------------------------
+input 1/1          :   'serving_default_reshape_4_input0' (domain:activations/**default**)                 
+                   :   10240 items, 40.00 KiB, ai_float, float, (1,10240,1,1)                              
+output 1/1         :   'nl_12' (domain:activations/**default**)                                            
+                   :   3 items, 12 B, ai_float, float, (1,1,1,3)                                           
+macc               :   6,488                                                                               
+weights (ro)       :   844 B (844 B) (1 segment) / -16(-1.9%) vs float model                               
+activations (rw)   :   41,984 B (41.00 KiB) (1 segment) *                                                  
+ram (total)        :   41,984 B (41.00 KiB) = 41,984 + 0 + 0                                               
+------------------------------------------------------------------------------------------------------------
+(*) 'input'/'output' buffers can be used from the activations buffer
+
+Model name - Spch_cmd24 ['serving_default_reshape_4_input0'] ['nl_12']
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id   layer (type,original)                                                  oshape                 param/size   macc    connected to                                           |   c_size         c_macc             c_type                  
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0    serving_default_reshape_4_input0 (Input, )                             [b:1,h:10240,c:1]                                                                                  |                                    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3    reshape_3 (Reshape, RESHAPE)                                           [b:1,h:40,w:256,c:1]                        serving_default_reshape_4_input0                       |                                    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4    upsample_4 (Upsample, RESIZE_BILINEAR)                                 [b:1,h:16,w:16,c:1]                 1,024   reshape_3                                              |                                     upsample_of32[0]        
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5    conv2d_5 (Conv2D, CONV_2D)                                             [b:1,h:14,w:14,c:2]    20/80        3,530   upsample_4                                             |   -80(-100.0%)   -3,530(-100.0%)   
+     nl_5_nl (Nonlinearity, CONV_2D)                                        [b:1,h:14,w:14,c:2]                 392     conv2d_5                                               |                  -392(-100.0%)     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6    pool_6 (Pool, AVERAGE_POOL_2D)                                         [b:1,h:7,w:7,c:2]                   392     nl_5_nl                                                |   +80(+100.0%)   +3,922(+1000.5%)   optimized_conv2d_of32[1]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7    sequential_4_batch_normalization_4_FusedBatchNormV3 (Placeholder, )    [b:None,c:2]           2/8                                                                         |   -8(-100.0%)                      
+     eltwise_7 (Eltwise, MUL)                                               [b:1,h:7,w:7,c:2]                   98      pool_6                                                 |                  -98(-100.0%)      
+                                                                                                                        sequential_4_batch_normalization_4_FusedBatchNormV3    |  
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8    sequential_4_batch_normalization_4_FusedBatchNormV31 (Placeholder, )   [b:None,c:2]           2/8                                                                         |   -8(-100.0%)                      
+     eltwise_8 (Eltwise, ADD)                                               [b:1,h:7,w:7,c:2]                   98      eltwise_7                                              |                  -98(-100.0%)      
+                                                                                                                        sequential_4_batch_normalization_4_FusedBatchNormV31   |  
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+9    conv2d_9 (Conv2D, CONV_2D)                                             [b:1,h:5,w:5,c:2]      38/152       902     eltwise_8                                              |                  +50(+5.5%)         conv2d_of32[2]          
+     nl_9_nl (Nonlinearity, CONV_2D)                                        [b:1,h:5,w:5,c:2]                   50      conv2d_9                                               |                  -50(-100.0%)      
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+10   reshape_10 (Reshape, RESHAPE)                                          [b:1,c:50]                                  nl_9_nl                                                |                                    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+11   dense_11 (Dense, FULLY_CONNECTED)                                      [b:1,c:3]              153/612      153     reshape_10                                             |                                     dense_of32[3]           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+12   nl_12 (Nonlinearity, SOFTMAX)                                          [b:1,c:3]                           45      dense_11                                               |                                     nl_of32[o][4]           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+model/c-model: macc=6,684/6,488 -196(-2.9%) weights=860/844 -16(-1.9%) activations=--/41,984 io=--/0
+
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name            : spch_cmd24
+c-name                : network
+c-node #              : 5
+c-array #             : 13
+activations size      : 41984 (1 segment)
+weights size          : 844 (1 segment)
+macc                  : 6488
+inputs                : ['serving_default_reshape_4_input0_output']
+outputs               : ['nl_12_output']
+
+C-Arrays (13)
+-------------------------------------------------------------------------------------------------------------------------
+c_id   name (*_array)                            item/size     domain/mem-pool           c-type        fmt       comment
+-------------------------------------------------------------------------------------------------------------------------
+0      conv2d_9_weights                          36/144        weights/weights           const float   float32          
+1      serving_default_reshape_4_input0_output   10240/40960   activations/**default**   float         float32   /input 
+2      conv2d_9_bias                             2/8           weights/weights           const float   float32          
+3      upsample_4_output                         256/1024      activations/**default**   float         float32          
+4      conv2d_5_output                           98/392        activations/**default**   float         float32          
+5      dense_11_weights                          150/600       weights/weights           const float   float32          
+6      conv2d_9_output                           50/200        activations/**default**   float         float32          
+7      dense_11_output                           3/12          activations/**default**   float         float32          
+8      dense_11_bias                             3/12          weights/weights           const float   float32          
+9      nl_12_output                              3/12          activations/**default**   float         float32   /output
+10     conv2d_5_scratch0                         56/224        activations/**default**   float         float32          
+11     conv2d_5_weights                          18/72         weights/weights           const float   float32          
+12     conv2d_5_bias                             2/8           weights/weights           const float   float32          
+-------------------------------------------------------------------------------------------------------------------------
+
+C-Layers (5)
+-----------------------------------------------------------------------------------------------------------------------------
+c_id   name (*_layer)   id   layer_type          macc   rom   tensors                                       shape (array id)
+-----------------------------------------------------------------------------------------------------------------------------
+0      upsample_4       4    upsample            1024   0     I: serving_default_reshape_4_input0_output0   (1,40,256,1) (1)
+                                                              O: upsample_4_output                          (1,16,16,1) (3) 
+-----------------------------------------------------------------------------------------------------------------------------
+1      conv2d_5         6    optimized_conv2d    4314   80    I: upsample_4_output                          (1,16,16,1) (3) 
+                                                              S: conv2d_5_scratch0                                          
+                                                              W: conv2d_5_weights                           (1,2,3,3) (11)  
+                                                              W: conv2d_5_bias                              (1,1,1,2) (12)  
+                                                              O: conv2d_5_output                            (1,7,7,2) (4)   
+-----------------------------------------------------------------------------------------------------------------------------
+2      conv2d_9         9    conv2d              952    152   I: conv2d_5_output                            (1,7,7,2) (4)   
+                                                              W: conv2d_9_weights                           (2,2,3,3) (0)   
+                                                              W: conv2d_9_bias                              (1,1,1,2) (2)   
+                                                              O: conv2d_9_output                            (1,5,5,2) (6)   
+-----------------------------------------------------------------------------------------------------------------------------
+3      dense_11         11   dense               153    612   I: conv2d_9_output0                           (1,1,1,50) (6)  
+                                                              W: dense_11_weights                           (50,1,1,3) (5)  
+                                                              W: dense_11_bias                              (1,1,1,3) (8)   
+                                                              O: dense_11_output                            (1,1,1,3) (7)   
+-----------------------------------------------------------------------------------------------------------------------------
+4      nl_12            12   nl                  45     0     I: dense_11_output                            (1,1,1,3) (7)   
+                                                              O: nl_12_output                               (1,1,1,3) (9)   
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+
+Number of operations per c-layer
+------------------------------------------------------------------------------------------------------
+c_id    m_id   name (type)                   #op (type)                       #param (sparsity)      
+------------------------------------------------------------------------------------------------------
+0       4      upsample_4 (upsample)                   1,024 (smul_f32_f32)                          
+1       6      conv2d_5 (optimized_conv2d)             4,314 (smul_f32_f32)               20 (0.0000)
+2       9      conv2d_9 (conv2d)                         952 (smul_f32_f32)               38 (0.0000)
+3       11     dense_11 (dense)                          153 (smul_f32_f32)              153 (0.0000)
+4       12     nl_12 (nl)                                 45 (op_f32_f32)                            
+------------------------------------------------------------------------------------------------------
+total                                                  6,488                             211 (0.0000)
+
+  Number of operation types
+  ---------------------------------------------
+  smul_f32_f32               6,443       99.3%
+  op_f32_f32                    45        0.7%
+
+Complexity report (model)
+-----------------------------------------------------------------------------
+m_id   name         c_macc                    c_rom                     c_id
+-----------------------------------------------------------------------------
+4      upsample_4   ||||              15.8%   |                  0.0%   [0] 
+6      pool_6       ||||||||||||||||  66.5%   ||                 9.5%   [1] 
+9      conv2d_9     ||||              14.7%   ||||              18.0%   [2] 
+11     dense_11     |                  2.4%   ||||||||||||||||  72.5%   [3] 
+12     nl_12        |                  0.7%   |                  0.0%   [4] 
+-----------------------------------------------------------------------------
+macc=6,488 weights=844 act=41,984 ram_io=0
+
+Generated files (7)
+---------------------------------------------------------------------------------
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network_config.h
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network.h
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network.c
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network_data_params.h
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network_data_params.c
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network_data.h
+C:\Users\Dung Ngan Ha\.stm32cubemx\network_output\network_data.c

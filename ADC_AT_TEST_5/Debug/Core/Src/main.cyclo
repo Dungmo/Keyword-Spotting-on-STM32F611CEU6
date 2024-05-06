@@ -1,0 +1,14 @@
+../Core/Src/main.c:96:6:cout	2
+../Core/Src/main.c:107:6:argmax	7
+../Core/Src/main.c:146:13:AI_Init	2
+../Core/Src/main.c:164:13:AI_Run	2
+../Core/Src/main.c:189:6:stft_cus	4
+../Core/Src/main.c:232:6:HAL_ADC_ConvCpltCallback	3
+../Core/Src/main.c:261:5:main	2
+../Core/Src/main.c:337:6:SystemClock_Config	3
+../Core/Src/main.c:384:13:MX_ADC1_Init	3
+../Core/Src/main.c:436:13:MX_CRC_Init	2
+../Core/Src/main.c:462:13:MX_TIM3_Init	6
+../Core/Src/main.c:520:13:MX_USART1_UART_Init	2
+../Core/Src/main.c:553:13:MX_GPIO_Init	1
+../Core/Src/main.c:574:6:Error_Handler	1

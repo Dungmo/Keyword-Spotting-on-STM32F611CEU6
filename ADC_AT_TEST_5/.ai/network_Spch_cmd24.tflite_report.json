@@ -1,0 +1,397 @@
+{
+    "_allocate_inputs": 4,
+    "_allocate_outputs": 4,
+    "cli_parameters": "generate -m C:/Users/Dung Ngan Ha/Desktop/NCKH/3classes/Spch_cmd24.tflite --type tflite --compression lossless --verbosity 1 --workspace C:\\Users\\DUNGNG~1\\AppData\\Local\\Temp\\mxAI_workspace6177278380436001068603917159775245 --output C:\\Users\\Dung Ngan Ha\\.stm32cubemx\\network_output/reloc --allocate-inputs --allocate-outputs --reloc --series stm32f4 --lib C:/Users/Dung Ngan Ha/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-AI/7.3.0/Middlewares/ST/AI",
+    "cli_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 6
+    },
+    "cli_version_str": "1.6.0",
+    "compression": {
+        "factor": null,
+        "layers": {}
+    },
+    "date_time": "Sun Nov 26 23:36:19 2023",
+    "error": 0,
+    "error_str": [],
+    "exec_cmd": "generate",
+    "exec_duration": 0.0,
+    "hash": "8c176a9c3d868d590c1a5c64c0099f43",
+    "inputs": [
+        "serving_default_reshape_4_input0"
+    ],
+    "layers": [
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 40960,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        10240,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "serving_default_reshape_4_input0",
+            "original": "",
+            "type": "Input"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 3,
+            "inputs": [
+                "serving_default_reshape_4_input0"
+            ],
+            "name": "reshape_3",
+            "original": "RESHAPE",
+            "type": "Reshape"
+        },
+        {
+            "c_id": [
+                0
+            ],
+            "extras": {
+                "n_macc": 1024,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        16,
+                        16,
+                        1,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [
+                "reshape_3"
+            ],
+            "name": "upsample_4",
+            "original": "RESIZE_BILINEAR",
+            "type": "Upsample"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3530,
+                "n_params": 20,
+                "psize": 80,
+                "rom_output": {
+                    "c_size": 392,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        7,
+                        7,
+                        2,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "upsample_4"
+            ],
+            "name": "conv2d_5",
+            "original": "CONV_2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 392,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "conv2d_5"
+            ],
+            "name": "nl_5_nl",
+            "original": "CONV_2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                1
+            ],
+            "extras": {
+                "n_macc": 392,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 80
+            },
+            "id": 6,
+            "inputs": [
+                "nl_5_nl"
+            ],
+            "name": "pool_6",
+            "original": "AVERAGE_POOL_2D",
+            "type": "Pool"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 2,
+                "psize": 8,
+                "rom_size": 0
+            },
+            "id": 7,
+            "inputs": [],
+            "name": "sequential_4_batch_normalization_4_FusedBatchNormV3",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 98,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 7,
+            "inputs": [
+                "pool_6",
+                "sequential_4_batch_normalization_4_FusedBatchNormV3"
+            ],
+            "name": "eltwise_7",
+            "original": "MUL",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 2,
+                "psize": 8,
+                "rom_size": 0
+            },
+            "id": 8,
+            "inputs": [],
+            "name": "sequential_4_batch_normalization_4_FusedBatchNormV31",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 98,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 8,
+            "inputs": [
+                "eltwise_7",
+                "sequential_4_batch_normalization_4_FusedBatchNormV31"
+            ],
+            "name": "eltwise_8",
+            "original": "ADD",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [
+                2
+            ],
+            "extras": {
+                "n_macc": 902,
+                "n_params": 38,
+                "psize": 152,
+                "rom_output": {
+                    "c_size": 200,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        5,
+                        5,
+                        2,
+                        1
+                    ]
+                },
+                "rom_size": 152
+            },
+            "id": 9,
+            "inputs": [
+                "eltwise_8"
+            ],
+            "name": "conv2d_9",
+            "original": "CONV_2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 50,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 9,
+            "inputs": [
+                "conv2d_9"
+            ],
+            "name": "nl_9_nl",
+            "original": "CONV_2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 10,
+            "inputs": [
+                "nl_9_nl"
+            ],
+            "name": "reshape_10",
+            "original": "RESHAPE",
+            "type": "Reshape"
+        },
+        {
+            "c_id": [
+                3
+            ],
+            "extras": {
+                "n_macc": 153,
+                "n_params": 153,
+                "psize": 612,
+                "rom_output": {
+                    "c_size": 12,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        3,
+                        1
+                    ]
+                },
+                "rom_size": 612
+            },
+            "id": 11,
+            "inputs": [
+                "reshape_10"
+            ],
+            "name": "dense_11",
+            "original": "FULLY_CONNECTED",
+            "type": "Dense"
+        },
+        {
+            "c_id": [
+                4
+            ],
+            "extras": {
+                "n_macc": 45,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 12,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        3,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 12,
+            "inputs": [
+                "dense_11"
+            ],
+            "name": "nl_12",
+            "original": "SOFTMAX",
+            "type": "Nonlinearity"
+        }
+    ],
+    "model_files": [
+        "C:\\Users\\Dung Ngan Ha\\Desktop\\NCKH\\3classes\\Spch_cmd24.tflite"
+    ],
+    "model_n_params": 215,
+    "model_name": "Spch_cmd24",
+    "model_size": 860,
+    "model_type": "tflite",
+    "name": "network",
+    "outputs": [
+        "nl_12"
+    ],
+    "ram_io_size": [
+        40960,
+        12
+    ],
+    "ram_size": [
+        41984,
+        41984
+    ],
+    "report_version": 1.1,
+    "rom_cfact": 1.0,
+    "rom_heap_inspector": 2048,
+    "rom_inputs": [
+        {
+            "c_size": 40960,
+            "c_type": "float",
+            "name": "serving_default_reshape_4_input0"
+        }
+    ],
+    "rom_n_macc": 6488,
+    "rom_outputs": [
+        {
+            "c_size": 12,
+            "c_type": "float",
+            "name": "nl_12"
+        }
+    ],
+    "rom_size": 844,
+    "strategy": "heap_overlay",
+    "tools_api_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 6
+    },
+    "tools_version": {
+        "extra": "RC5",
+        "major": 7,
+        "micro": 0,
+        "minor": 3
+    },
+    "val_error": -1.0,
+    "val_error_desc": "None (None) #-1",
+    "val_metrics": []
+}
